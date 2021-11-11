@@ -19,7 +19,6 @@ function trimProperties(obj) {
   }
   return result;
 }
-console.log(trimProperties({ name: "  jane", nickname: "    bable   " }));
 
 /**
  * [Exercise 2] trimPropertiesMutation trims in place the properties of an object
@@ -57,14 +56,6 @@ function findLargestInteger(integers) {
   });
   return max;
 }
-console.log(
-  findLargestInteger([
-    { integer: 1 },
-    { integer: 3 },
-    { integer: 2 },
-    { integer: 5 },
-  ])
-);
 
 class Counter {
   /**
@@ -73,6 +64,7 @@ class Counter {
    */
   constructor(initialNumber) {
     // ✨ initialize whatever properties are needed
+    this.count = initialNumber;
   }
 
   /**
@@ -88,7 +80,10 @@ class Counter {
    * counter.countDown() // returns 0
    */
   countDown() {
-    // ✨ implement
+    if (this.count > 0) {
+      return this.count--;
+    }
+    return this.count;
   }
 }
 
@@ -98,6 +93,8 @@ class Seasons {
    */
   constructor() {
     // ✨ initialize whatever properties are needed
+    this.seasons = ["summer", "fall", "winter", "spring"];
+    this.currentSeason = 0;
   }
 
   /**
@@ -114,6 +111,13 @@ class Seasons {
    */
   next() {
     // ✨ implement
+    const result = this.seasons[this.currentSeason];
+    if (this.currentSeason === 3) {
+      this.currentSeason = 0;
+    } else {
+      this.currentSeason++;
+    }
+    return result;
   }
 }
 
@@ -127,7 +131,9 @@ class Car {
   constructor(name, tankSize, mpg) {
     this.odometer = 0; // car initilizes with zero miles
     this.tank = tankSize; // car initiazes full of gas
+    this.tankSize = tankSize;
     // ✨ initialize whatever other properties are needed
+    this.mpg = mpg;
   }
 
   /**
@@ -145,6 +151,15 @@ class Car {
    */
   drive(distance) {
     // ✨ implement
+    const maxMiles = this.tank * this.mpg;
+    if (distance <= maxMiles) {
+      this.odometer += distance;
+      this.tank -= distance / this.mpg;
+    } else {
+      this.tank = 0;
+      this.odometer += maxMiles;
+    }
+    return this.odometer;
   }
 
   /**
@@ -160,6 +175,13 @@ class Car {
    */
   refuel(gallons) {
     // ✨ implement
+    const gallonsThatFit = this.tankSize - this.tank;
+    if (gallons <= gallonsThatFit) {
+      this.tank += gallons;
+    } else {
+      this.tank = this.tankSize;
+    }
+    return this.tank * this.mpg;
   }
 }
 
